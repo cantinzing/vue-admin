@@ -1,107 +1,103 @@
 <template>
-    <Card style="width:350px">
-        <p slot="title">
-            <Icon type="ios-film-outline"></Icon>
-            经典电影
-        </p>
-        <a href="#" slot="extra" @click.prevent="changeLimit">
-            <Icon type="ios-loop-strong"></Icon>
-            换一换
-        </a>
-        <ul>
-            <li v-for="item in randomMovieList">
-                <a :href="item.url" target="_blank">{{ item.name }}</a>
-                <span>
-                    <Icon type="ios-star" v-for="n in 4" :key="n"></Icon><Icon type="ios-star" v-if="item.rate >= 9.5"></Icon><Icon type="ios-star-half" v-else></Icon>
-                    {{ item.rate }}
-                </span>
-            </li>
-        </ul>
-    </Card>
+    <Table border stripe :columns="columns7" :data="data6"></Table>
 </template>
 <script>
     export default {
         data () {
             return {
-                movieList: [
+                columns7: [
                     {
-                        name: '肖申克的救赎',
-                        url: 'https://movie.douban.com/subject/1292052/',
-                        rate: 9.6
+                        title: '姓名',
+                        key: 'name',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Icon', {
+                                    props: {
+                                        type: 'person'
+                                    }
+                                }),
+                                h('strong', params.row.name)
+                            ]);
+                        }
                     },
                     {
-                        name: '这个杀手不太冷',
-                        url: 'https://movie.douban.com/subject/1295644/',
-                        rate: 9.4
+                        title: '年龄',
+                        key: 'age'
                     },
                     {
-                        name: '霸王别姬',
-                        url: 'https://movie.douban.com/subject/1291546/',
-                        rate: 9.5
+                        title: '地址',
+                        key: 'address'
                     },
                     {
-                        name: '阿甘正传',
-                        url: 'https://movie.douban.com/subject/1292720/',
-                        rate: 9.4
-                    },
-                    {
-                        name: '美丽人生',
-                        url: 'https://movie.douban.com/subject/1292063/',
-                        rate: 9.5
-                    },
-                    {
-                        name: '千与千寻',
-                        url: 'https://movie.douban.com/subject/1291561/',
-                        rate: 9.2
-                    },
-                    {
-                        name: '辛德勒的名单',
-                        url: 'https://movie.douban.com/subject/1295124/',
-                        rate: 9.4
-                    },
-                    {
-                        name: '海上钢琴师',
-                        url: 'https://movie.douban.com/subject/1292001/',
-                        rate: 9.2
-                    },
-                    {
-                        name: '机器人总动员',
-                        url: 'https://movie.douban.com/subject/2131459/',
-                        rate: 9.3
-                    },
-                    {
-                        name: '盗梦空间',
-                        url: 'https://movie.douban.com/subject/3541415/',
-                        rate: 9.2
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.show(params.index)
+                                        }
+                                    }
+                                }, '查看'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.remove(params.index)
+                                        }
+                                    }
+                                }, '删除')
+                            ]);
+                        }
                     }
                 ],
-                randomMovieList: []
+                data6: [
+                    {
+                        name: '王小明',
+                        age: 18,
+                        address: '北京市朝阳区芍药居'
+                    },
+                    {
+                        name: '张小刚',
+                        age: 25,
+                        address: '北京市海淀区西二旗'
+                    },
+                    {
+                        name: '李小红',
+                        age: 30,
+                        address: '上海市浦东新区世纪大道'
+                    },
+                    {
+                        name: '周小伟',
+                        age: 26,
+                        address: '深圳市南山区深南大道'
+                    }
+                ]
             }
         },
         methods: {
-            changeLimit () {
-                function getArrayItems(arr, num) {
-                    const temp_array = [];
-                    for (let index in arr) {
-                        temp_array.push(arr[index]);
-                    }
-                    const return_array = [];
-                    for (let i = 0; i<num; i++) {
-                        if (temp_array.length>0) {
-                            const arrIndex = Math.floor(Math.random()*temp_array.length);
-                            return_array[i] = temp_array[arrIndex];
-                            temp_array.splice(arrIndex, 1);
-                        } else {
-                            break;
-                        }
-                    }
-                    return return_array;
-                }
-                this.randomMovieList = getArrayItems(this.movieList, 5);
+            show (index) {
+                this.$Modal.info({
+                    title: '用户信息',
+                    content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
+                })
+            },
+            remove (index) {
+                this.data6.splice(index, 1);
             }
-        },
-        mounted () {
-            this.changeLimit();
         }
     }
 </script>

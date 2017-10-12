@@ -14,7 +14,7 @@ export default new Router({
 	    {
 		    path: '/',
 		    components: {
-		        main:index
+		        main:member_list
 		    }
 		},
 	    { 
