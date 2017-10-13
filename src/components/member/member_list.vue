@@ -1,10 +1,16 @@
 <template>
-    <Table border stripe :columns="columns7" :data="data6"></Table>
+    <div>
+        <div class="table_header" style="margin-bottom: 30px;">
+            <Input  placeholder="输入会员名称关键词筛选数据" style="width: 250px"></Input>
+        </div>
+        <Table :loading="loading" :columns="columns7" :data="data6"></Table>
+    </div>
 </template>
 <script>
     export default {
         data () {
             return {
+                loading: false,
                 columns7: [
                     {
                         title: '姓名',

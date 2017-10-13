@@ -3,6 +3,11 @@
   	<!-- <top></top> -->
   	<!-- <left></left> -->
   	<index></index>
+<!--   	<div class="layout-content">
+                    <div class="layout-content-main">
+                      <router-view name="main"></router-view> 
+                    </div>
+                </div> -->
     <!-- <router-view name="main"></router-view> -->
 
   </div>
