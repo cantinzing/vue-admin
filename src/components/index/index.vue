@@ -1,25 +1,25 @@
 <template>
     <div class="layout">
         <Row type="flex">
-            <Col span="3" class="layout-menu-left">
-                <Menu active-name="0" theme="dark" width="auto" :open-names="['0']">
+            <Col :span="spanLeft" class="layout-menu-left">
+                <Menu :active-name="setActive" theme="dark" width="auto" :open-names="['/']" accordion @on-select="routeTo">
                     <div class="layout-logo-left"></div>
-                    <MenuItem name="0" @click="homepage">
-                        <Icon type="ios-navigate" size="18"></Icon>
+                    <MenuItem name="/">
+                        <Icon type="ios-navigate" :size="iconSize"></Icon>
                         <span class="layout-text">首页</span>
                     </MenuItem>
                     <Submenu name="1">
                         <template slot="title">
-                            <Icon type="android-person" size="18"></Icon>
+                            <Icon type="android-person" :size="iconSize"></Icon>
                             会员管理
                         </template>
-                        <MenuItem name="1-1" @click="member_list">会员列表</MenuItem>
+                        <MenuItem name="member_list">会员列表</MenuItem>
                         <MenuItem name="1-2">选项 2</MenuItem>
                         <MenuItem name="1-3">选项 3</MenuItem>
                     </Submenu>
                     <Submenu name="2">
                         <template slot="title">
-                            <Icon type="ios-keypad" size="18"></Icon>
+                            <Icon type="ios-keypad" :size="iconSize"></Icon>
                             导航二
                         </template>
                         <MenuItem name="2-1">选项 1</MenuItem>
@@ -27,7 +27,7 @@
                     </Submenu>
                     <Submenu name="3">
                         <template slot="title">
-                            <Icon type="ios-analytics" size="18"></Icon>
+                            <Icon type="ios-analytics" :size="iconSize"></Icon>
                             导航三
                         </template>
                         <MenuItem name="3-1">选项 1</MenuItem>
@@ -35,17 +35,19 @@
                     </Submenu>
                 </Menu>
             </Col>
-            <Col span="21">
+            <Col :span="spanRight">
                 <div class="layout-header"></div>
+                <!-- 面包屑 -->
                 <div class="layout-breadcrumb">
                     <Breadcrumb>
-                        <BreadcrumbItem :to="{ path: '/' }">首页</BreadcrumbItem>
-                        <BreadcrumbItem :to="{ path: '/member_list' }">会员列表</BreadcrumbItem>
+                        <BreadcrumbItem v-bind:href="current_router" v-bind:replace="is_add">{{ $route.name }}</BreadcrumbItem>
                     </Breadcrumb>
                 </div>
                 <div class="layout-content">
                     <div class="layout-content-main">
-                      <router-view name="main"></router-view> 
+                      <!-- 路由 -->
+                      <router-view name="main"></router-view>
+                      
                     </div>
                 </div>
                 <div class="layout-copy">
@@ -56,20 +58,37 @@
     </div>
 </template>
 <script>
+
     export default {
         data() {
           return {
+            spanLeft: 3,
+            spanRight: 21,
+            iconSize:18,
+            is_add:true,
+            router:this.$route.path
           }
+        },
+        computed: {
+            setActive() {
+              if(this.$route.path=='/'){//首页路由不应去掉/
+                return this.$route.path;
+              }
+              else{
+                return this.$route.path.replace('/','');//其它路由去掉/，否则不能高亮侧栏当前选中的栏目
+              }
+            },
+            current_router(){
+              return this.$route.path;
+            },
+            
         },
         methods: {
 
-          homepage: function(){
-            this.$router.push('/')
+          routeTo(path){
+            this.$router.push(path)
           },
 
-          member_list: function(){
-            this.$router.push('/member_list')
-          }
         },
     }
 </script>
