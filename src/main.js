@@ -7,6 +7,7 @@ import store from './vuex/store'
 import axios from 'axios'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import './assets/css/common.css'
 
 Vue.prototype.$ajax = axios//如果不添加这行，在其它的组件中，是无法使用 axios 命令的。但如果将 axios 改写为 Vue 的原型属性，就能解决这个问题
 

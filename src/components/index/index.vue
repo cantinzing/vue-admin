@@ -50,9 +50,6 @@
                       
                     </div>
                 </div>
-                <div class="layout-copy">
-                    2017-2030 &copy; cantinzing &reg;
-                </div>
             </Col>
         </Row>
     </div>
@@ -114,11 +111,6 @@
     .layout-content-main{
         padding: 20px 10px 20px 10px;
     }
-    .layout-copy{
-        text-align: center;
-        padding: 10px 0 20px;
-        color: #9ea7b4;
-    }
     .layout-menu-left{
         background: #464c5b;
     }
@@ -134,5 +126,4 @@
         border-radius: 3px;
         margin: 15px auto;
     }
-
 </style>
