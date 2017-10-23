@@ -13,6 +13,17 @@ Vue.prototype.$ajax = axios//如果不添加这行，在其它的组件中，是
 
 Vue.use(iView)
 
+//iview顶部加载进度条
+router.beforeEach((to, from, next) => {
+    iView.LoadingBar.start();
+    next();
+});
+
+router.afterEach(route => {
+    iView.LoadingBar.finish();
+});
+
+
 Vue.config.productionTip = false
 
 

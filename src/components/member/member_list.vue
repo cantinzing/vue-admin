@@ -1,10 +1,12 @@
 <template>
     <div>
         <div class="table_header" style="margin-bottom: 30px;">
-            <Button type="info" @click="add_member">添加会员</Button>
-            <Input  placeholder="输入会员名称关键词筛选数据" style="width: 250px"></Input>
+            <Button class="tableHead" :disabled="!selection.length" type="ghost" @click="remove">批量删除</Button>
+            <Button class="tableHead" type="ghost" @click="add_member">添加会员</Button>
+            <Input v-model="keyWord" placeholder="输入会员名称关键词筛选数据" style="width: 250px"></Input>
+            <Button type="ghost" shape="circle" icon="ios-search" @click="fetchData"></Button>
         </div>
-        <Table :loading="loading" ref="selection" :columns="columns7" :data="dataList"></Table>
+        <Table :loading="loading" ref="selection" :columns="columns7" :data="dataList" @on-selection-change="select"></Table>
         <Modal
                 v-model="modal1"
                 title="添加会员"
@@ -20,7 +22,7 @@
                 </div>
         </Modal>
         <div class="page">
-          <Page :total="total" :page-size="listRows" show-total @on-change="fetchData"></Page>
+          <Page :total="total" :page-size="listRows" size="small" show-total @on-change="fetchData"></Page>
         </div>
     </div>
 </template>
@@ -33,9 +35,10 @@
         data () {
             return {
                 loading: false,
-                // submitLoading: false,
                 modal1:false,
                 total:0,
+                keyWord:'',
+                selection:[],
                 columns7: [
                     {
                         type: 'selection',
@@ -86,7 +89,7 @@
                             return h('div', [
                                 h('Button', {
                                     props: {
-                                        type: 'primary',
+                                        type: 'ghost',
                                         size: 'small'
                                     },
                                     style: {
@@ -100,7 +103,7 @@
                                 }, '查看'),
                                 h('Button', {
                                     props: {
-                                        type: 'error',
+                                        type: 'ghost',
                                         size: 'small'
                                     },
                                     on: {
@@ -141,7 +144,8 @@
                 url: this.ajaxUrl+'member/member_list',
                 data:qs.stringify({
                   page:current?current:1,
-                  listRows:this.listRows
+                  listRows:this.listRows,
+                  keyWord:this.keyWord,
                 })
                 
              })
@@ -181,6 +185,18 @@
                     content: `姓名：${this.dataList[index].nickname}<br>年龄：${this.dataList[index].age}<br>地址：${this.dataList[index].address}`
                 })
             },
+
+            select(selection){
+
+                var select=[];
+                for (var i = 0; i <selection.length; i++) {
+                    
+                    select.push(selection[i]['member_id']);
+                    
+                }
+                this.selection=select;
+            },
+
             ...mapMutations(['logicDel']),
             remove (index,id) {
               this.$Modal.confirm({
@@ -188,7 +204,7 @@
                     content: '<p>一些对话框内容</p><p>一些对话框内容</p>',
                     onOk: () => {
                         var status=this.logicDel()
-                        if () {this.$Message.info('点击了取消');}
+                        if (status) {this.$Message.info('点击了取消');}
                         
                     },
                     onCancel: () => {

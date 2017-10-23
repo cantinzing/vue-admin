@@ -8,4 +8,10 @@
 
  .page{
     margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .tableHead{
+  	margin-right: 15px;
   }
