@@ -1,6 +1,9 @@
 <template>
     <div>
-        <tableList ref="table" :columns="columns" adminUrl="member/member_list"></tableList>
+          
+        <tableList ref="table" :columns="columns" adminUrl="member/member_list" name="会员" sqlTable="member">
+
+        </tableList>
     </div>
 </template>
 <script>
@@ -54,7 +57,7 @@
                     {
                         title: '操作',
                         key: 'action',
-                        width: 150,
+                        width: 170,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -72,6 +75,20 @@
                                         }
                                     }
                                 }, '查看'),
+                                h('Button', {
+                                    props: {
+                                        type: 'ghost',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.$refs.table.edit(params.row.member_id)
+                                        }
+                                    }
+                                }, '修改'),
                                 h('Button', {
                                     props: {
                                         type: 'ghost',

@@ -19,9 +19,9 @@ router.beforeEach((to, from, next) => {
     next();
 });
 
-router.afterEach(route => {
-    iView.LoadingBar.finish();
-});
+// router.afterEach(route => {
+//     iView.LoadingBar.finish();
+// });
 
 
 Vue.config.productionTip = false

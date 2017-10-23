@@ -8,11 +8,6 @@ const mutations = {
   },
 
 
-  //数据逻辑删除操作
-  logicDel:(state)=>{
-    return true;
-  },
-
 
 
 
