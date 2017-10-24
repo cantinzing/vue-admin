@@ -1,42 +1,11 @@
 <template>
     <div class="layout">
-        <Row type="flex">
+        <Row>
             <Col :span="spanLeft" class="layout-menu-left">
-                <Menu :active-name="setActive" theme="dark" width="auto" :open-names="['/']" accordion @on-select="routeTo">
-                    <div class="layout-logo-left"></div>
-                    <MenuItem name="/">
-                        <Icon type="ios-navigate" :size="iconSize"></Icon>
-                        <span class="layout-text">首页</span>
-                    </MenuItem>
-                    <Submenu name="1">
-                        <template slot="title">
-                            <Icon type="android-person" :size="iconSize"></Icon>
-                            会员管理
-                        </template>
-                        <MenuItem name="member_list">会员列表</MenuItem>
-                        <MenuItem name="1-2">选项 2</MenuItem>
-                        <MenuItem name="1-3">选项 3</MenuItem>
-                    </Submenu>
-                    <Submenu name="2">
-                        <template slot="title">
-                            <Icon type="ios-keypad" :size="iconSize"></Icon>
-                            导航二
-                        </template>
-                        <MenuItem name="2-1">选项 1</MenuItem>
-                        <MenuItem name="2-2">选项 2</MenuItem>
-                    </Submenu>
-                    <Submenu name="3">
-                        <template slot="title">
-                            <Icon type="ios-analytics" :size="iconSize"></Icon>
-                            导航三
-                        </template>
-                        <MenuItem name="3-1">选项 1</MenuItem>
-                        <MenuItem name="3-2">选项 2</MenuItem>
-                    </Submenu>
-                </Menu>
+                <left></left>
             </Col>
-            <Col :span="spanRight">
-                <div class="layout-header"></div>
+            <Col :span="spanRight" class="layout-menu-right">
+                <top></top>
                 <!-- 面包屑 -->
                 <div class="layout-breadcrumb">
                     <Breadcrumb>
@@ -55,7 +24,8 @@
     </div>
 </template>
 <script>
-
+    import left from '../menu/left'
+    import top from '../menu/top'
     export default {
         data() {
           return {
@@ -65,6 +35,10 @@
             is_add:true,
             router:this.$route.path
           }
+        },
+        components: {
+            left,
+            top,
         },
         computed: {
             setActive() {
@@ -100,6 +74,7 @@
     }
     .layout-breadcrumb{
         padding: 10px 15px 0;
+        margin-top: 65px;
     }
     .layout-content{
         min-height: 200px;
@@ -112,18 +87,16 @@
         padding: 20px 10px 20px 10px;
     }
     .layout-menu-left{
-        background: #464c5b;
-    }
-    .layout-header{
-        height: 60px;
         background: #fff;
-        box-shadow: 0 1px 1px rgba(0,0,0,.1);
+        border-right: 1px solid #e9eaec;   
+        position:fixed;
+        float: left;
+        height:100vh; 
     }
-    .layout-logo-left{
-        width: 90%;
-        height: 30px;
-        background: #5b6270;
-        border-radius: 3px;
-        margin: 15px auto;
+    .layout-menu-right{
+        float: right;
     }
+    
+    
+
 </style>
