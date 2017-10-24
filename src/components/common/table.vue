@@ -1,27 +1,15 @@
 <template>
     <div>
         <div class="table_header">
+
             <Button class="tableHead" :disabled="!selection.length" type="ghost" @click="remove">批量删除</Button>
-            <Button class="tableHead" type="ghost" @click="add_member">添加{{name}}</Button>
-            <Input v-model="keyWord" placeholder="输入会员名称关键词筛选数据" style="width: 250px"></Input>
+            <slot name="header"></slot>
+            <Input v-model="keyWord" :placeholder="search" style="width: 250px"></Input>
             <Button type="ghost" shape="circle" icon="ios-search" @click="fetchData"></Button>
-            <slot></slot>
+            
         </div>
         <Table :loading="loading" ref="selection" :columns="columns" :data="dataList" @on-selection-change="select"></Table>
-        <Modal
-                v-model="modal1"
-                :title="name"
-                v-bind:mask-closable="false"><!-- 布尔值数据要用v-bind，否则报错 -->
-                <addMember v-on:addSuccess="addSuccessq" ref="addMember"></addMember>
-                <!-- 通过在子组件上引用ref,从而获得子组件实例并通过this.$refs.addMember调用子组件方法或数据 -->
-                <div slot="footer">
-                    <Button type="dashed" @click="rest">重置</Button>
-                    <Button type="primary" :loading="submitLoading" @click="save">
-                      <span v-if="!submitLoading">提交</span>
-                      <span v-else>提交中...</span>
-                    </Button>
-                </div>
-        </Modal>
+        
         <div class="page">
           <Page :total="total" :page-size="listRows" size="small" show-total @on-change="fetchData"></Page>
         </div>
@@ -36,14 +24,14 @@
         data () {
             return {
                 loading: false,
-                modal1:false,
                 total:0,
                 keyWord:'',
                 selection:[],
                 dataList:[],
+                editData:'',
             }
         },
-        props: ['columns','adminUrl','name','sqlTable'],
+        props: ['columns','adminUrl','name','sqlTable','search'],
         components: {
           addMember,
         },
@@ -55,7 +43,7 @@
 
         computed: mapState({
           ajaxUrl: state => state.ajaxUrl,//获取store中的ajaxUrl数据赋给ajaxUrl
-          submitLoading: state => state.submitLoading,//获取store中的submitLoading数据赋给submitLoading
+          
           listRows: state => state.listRows,
         }),
 
@@ -86,25 +74,6 @@
             },
 
 
-            add_member(){
-              this.modal1=true;
-            },
-
-            addSuccessq(){
-
-              this.fetchData()
-              this.modal1=false;
-
-            },
-
-            save(){
-              this.$refs.addMember.handleSubmit(this.$refs.addMember.formname);//访问add_member.vue子组件的handleSubmit方法
-            },
-
-            rest(){
-              this.$refs.addMember.handleReset(this.$refs.addMember.formname);//同上
-            },
-
             show (index) {
                 this.$Modal.info({
                     title: '用户信息',
@@ -112,7 +81,36 @@
                 })
             },
 
-            select(selection){
+            edit (id,editUrl) {
+                this.$Spin.show();
+                this.$ajax({
+                method: 'POST',
+                url: this.ajaxUrl+editUrl,
+                data:qs.stringify({
+                  id:id,
+                })
+                
+                })
+              .then(function (response) {
+
+                if (response.data.code==0) {
+                    this.editData=response.data.data;
+                    this.$emit('getData')
+                }else{
+                    this.$Spin.hide();
+                    this.$Message.error('获取数据出现了问题！ε(┬┬﹏┬┬)3');
+                }
+                
+
+              }.bind(this))
+              .catch(function (error) {
+                this.$Spin.hide();
+                this.$Message.error('网络出现了问题！ε(┬┬﹏┬┬)3');
+                this.$Loading.error();
+              }.bind(this));
+            },
+
+            select(selection){//全选删除
 
                 var select=[];
                 for (var i = 0; i <selection.length; i++) {
@@ -148,10 +146,10 @@
                         
                      })
                       .then(function (response) {
-                        this.loading = false
+                        this.loading = false;
                         this.$Loading.finish();
-                        this.dataList=response.data.data
-                        this.total=response.data.total
+                        this.fetchData();
+
                       }.bind(this))
                       .catch(function (error) {
                         this.$Message.error('网络出现了问题！ε(┬┬﹏┬┬)3');
@@ -161,7 +159,7 @@
                         
                     },
                     onCancel: () => {
-                        this.$Message.info('点击了取消');
+                        // this.$Message.info('点击了取消');
                     }
                 });
                 

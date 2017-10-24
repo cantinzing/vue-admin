@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="demo-upload-list" v-if="uploadList !=''">
+        <div class="demo-upload-list" v-if="picUrl !=''">
             <template>
-                <img :src="ajaxUrl+uploadList.url">
+                <img :src="ajaxUrl+picUrl">
                 <div class="demo-upload-list-cover">
-                    <Icon type="ios-eye-outline" @click.native="handleView(uploadList.url)"></Icon>
-                    <Icon type="ios-trash-outline" @click.native="handleRemove(uploadList.url)"></Icon>
+                    <Icon type="ios-eye-outline" @click.native="handleView(picUrl)"></Icon>
+                    <Icon type="ios-trash-outline" @click.native="handleRemove(picUrl)"></Icon>
                 </div>
             </template>
         </div>
@@ -53,9 +53,10 @@
                 ],
                 imgUrl: '',
                 visible: false,
-                uploadList: []
+                picUrl: ''
             }
         },
+        props: ['picUrl','sqlId','table'],
         computed: mapState({
           ajaxUrl: state => state.ajaxUrl,//获取store中的ajaxUrl数据赋给ajaxUrl
 
@@ -71,12 +72,16 @@
                             method: 'POST',
                             url: this.ajaxUrl+'upload/del_pic',
                             data:
-                                qs.stringify({url:url}),
+                                qs.stringify({
+                                    url:url,
+                                    id:this.sqlId,
+                                    table:this.table,
+                                }),
                          })
                         .then(function (response) {
 
                             if (response.data.code==0) {
-                                this.uploadList=[]
+                                this.picUrl=''
                             }
                                 
                             this.$Message.success(response.data.msg);
@@ -91,11 +96,11 @@
             handleSuccess (res, file) {
 
                 if (res.code==0) {
-                    this.uploadList=res
+                    this.picUrl=res.data.url;
                     this.$emit('uploadSuccess')
                 }else{
                     this.$Notice.error({
-                    title: res.msg,
+                    title: res.data,
                 });
                 }
             },
@@ -112,7 +117,7 @@
                 });
             },
             handleBeforeUpload () {
-                const check = this.uploadList.length <1;
+                const check = this.picUrl.length <1;
                 if (!check) {
                     this.$Notice.warning({
                         title: '最多只能上传 1 张图片。'

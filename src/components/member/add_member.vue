@@ -29,7 +29,7 @@
             </RadioGroup>
         </FormItem>
         <FormItem label="头像" prop="avatar">
-            <upload v-on:uploadSuccess="uploadSuccess" ref="avatar"></upload>
+            <upload v-on:uploadSuccess="uploadSuccess" ref="avatar" :picUrl="formValidate.avatar" :sqlId="memberId" table="member"></upload>
         </FormItem>
         <FormItem label="介绍" prop="desc">
             <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="随便写点什么吧！"></Input>
@@ -79,6 +79,7 @@
                 }
             }
         },
+        props: ['memberId'],
         components: {
           upload,
         },
