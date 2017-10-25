@@ -103,7 +103,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.$refs.table.edit(params.row.member_id,'member/add_member');
+                                            this.$refs.table.edit(params.row.member_id,'member/get_edit_data');
                                             this.member_id=params.row.member_id;
                                         }
                                     }

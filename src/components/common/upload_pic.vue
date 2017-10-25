@@ -52,11 +52,10 @@
                     }
                 ],
                 imgUrl: '',
-                visible: false,
-                picUrl: ''
+                visible: false, 
             }
         },
-        props: ['picUrl','sqlId','table'],
+        props: ['picUrl'],
         computed: mapState({
           ajaxUrl: state => state.ajaxUrl,//获取store中的ajaxUrl数据赋给ajaxUrl
 
@@ -82,9 +81,17 @@
 
                             if (response.data.code==0) {
                                 this.picUrl=''
+                                this.$Message.success(response.data.msg);
+                            }
+
+                            if (response.data.code==2) {
+                                this.picUrl=''
+                                this.$Message.error(response.data.msg);
+                            }else{
+                                this.$Message.error(response.data.msg);
                             }
                                 
-                            this.$Message.success(response.data.msg);
+                            
 
                         }.bind(this))
                         .catch(function (error) {

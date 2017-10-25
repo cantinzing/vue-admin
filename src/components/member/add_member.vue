@@ -16,20 +16,20 @@
             <Row>
                 <Col span="11">
                     <FormItem prop="birthday">
-                        <DatePicker type="date" placeholder="选择生日" v-model="formValidate.birthday"></DatePicker>
+                        <DatePicker type="date" placeholder="选择生日" :value="formValidate.birthday"></DatePicker>
                     </FormItem>
                 </Col>
             </Row>
         </FormItem>
         <FormItem label="性别" prop="sex">
             <RadioGroup v-model="formValidate.sex">
-                <Radio label="0">保密</Radio>
-                <Radio label="1">男</Radio>
-                <Radio label="2">女</Radio>
+                <Radio :label="0">保密</Radio>
+                <Radio :label="1">男</Radio>
+                <Radio :label="2">女</Radio>
             </RadioGroup>
         </FormItem>
         <FormItem label="头像" prop="avatar">
-            <upload v-on:uploadSuccess="uploadSuccess" ref="avatar" :picUrl="formValidate.avatar" :sqlId="memberId" table="member"></upload>
+            <upload v-on:uploadSuccess="uploadSuccess" ref="avatar" :picUrl.sync="formValidate.avatar"></upload>
         </FormItem>
         <FormItem label="介绍" prop="desc">
             <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="随便写点什么吧！"></Input>
@@ -50,12 +50,12 @@
                     real_name:'',
                     mobile:'',
                     email: '',
-                    sex: '',
+                    sex: 0,
                     birthday: '',
                     desc: '',
                     avatar:'',
                 },
-  
+                
                 ruleValidate: {
                     nickname: [
                         { required: true, message: '昵称不能为空', trigger: 'blur' }
@@ -65,10 +65,10 @@
                         { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
                     ],
                     sex: [
-                        { required: true, message: '请选择性别', trigger: 'change' }
+                        { required: true, type:'number', message: '请选择性别', trigger: 'change' }
                     ],
                     birthday: [
-                        { required: true, type: 'date', message: '请选择生日日期', trigger: 'change' }
+                        { required: true, type: 'string', message: '请选择生日日期', trigger: 'change' }
                     ],
                     avatar: [
                         { required: true,  message: '请选择上传头像', trigger: 'blur' }
@@ -90,6 +90,7 @@
             ...mapMutations(['submitLoading']), //这submitLoading被映射了相当于一个在methods可直接调用的函数
 
             handleSubmit (name) {
+                
                 this.$refs[name].validate((valid) => {
                     if (valid) {
 
@@ -97,7 +98,7 @@
 
                         this.$ajax({
                             method: 'POST',
-                            url: this.ajaxUrl+'member/add_member',
+                            url: this.ajaxUrl+'member/add_member/id/'+this.memberId,
                             data:
                                 qs.stringify(this.formValidate),
                          })
@@ -109,6 +110,7 @@
                             
                         }.bind(this))
                         .catch(function (error) {
+                            this.submitLoading()
                             this.$Message.error('提交失败 ┗( T﹏T )┛');
                         }.bind(this));//这两个回调函数都有各自独立的作用域，如果直接在里面访问 this，无法访问到 Vue 实例，这时只要添加一个 .bind(this) 就能解决这个问题
 
@@ -120,7 +122,7 @@
             },
             uploadSuccess(){
 
-              this.formValidate.avatar=(this.$refs.avatar.uploadList.url)
+              this.formValidate.avatar=(this.$refs.avatar.picUrl)
             },
             handleReset (name) {
                 this.$refs[name].resetFields();
