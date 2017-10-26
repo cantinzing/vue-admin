@@ -1,23 +1,19 @@
 <template>
   <div id="app">
-  	<!-- <top></top> -->
-  	<!-- <left></left> -->
-  	<index></index>
-<!--   	<div class="layout-content">
-                    <div class="layout-content-main">
-                      <router-view name="main"></router-view> 
-                    </div>
-                </div> -->
-   <!--  <router-view name="main"></router-view> -->
+ 
+<!--   	<index>
+  		<span slot="router">
+  			<router-view name="main"></router-view>
+  		</span>
+  	</index> -->
 
+			<router-view name="index"></router-view>
   </div>
 </template>
 
 <script>
 
-	import left from './components/menu/left' //引入子组件
-	import top from './components/menu/top'
-	import index from './components/index/index'
+	import index from './components/index/index'//引入子组件
 
 	  export default {
 	    data (){
@@ -26,8 +22,7 @@
 	      }
 	    },
 	    components: {
-	        left,
-	        top,
+
 	        index
 	    },
 	  }

@@ -14,9 +14,8 @@
                 </div>
                 <div class="layout-content">
                     <div class="layout-content-main">
-                      <!-- 路由 -->
-                      <router-view name="main"></router-view>
-                      
+                      <!-- 路由分发 -->
+                      <slot name="router"></slot>
                     </div>
                 </div>
             </Col>
