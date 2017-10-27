@@ -1,11 +1,11 @@
 <template>
   <div id="app">
  
-<!--   	<index>
+  	<index>
   		<span slot="router">
   			<router-view name="main"></router-view>
   		</span>
-  	</index> -->
+  	</index>
 
 			<router-view name="index"></router-view>
   </div>

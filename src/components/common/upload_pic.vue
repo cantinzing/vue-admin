@@ -73,8 +73,6 @@
                             data:
                                 qs.stringify({
                                     url:url,
-                                    id:this.sqlId,
-                                    table:this.table,
                                 }),
                          })
                         .then(function (response) {

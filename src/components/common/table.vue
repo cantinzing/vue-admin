@@ -62,10 +62,17 @@
                 
              })
               .then(function (response) {
+                
+                if (response.data.code==0) {
+                    
+                    this.$Loading.finish();
+                    this.dataList=response.data.data.data
+                    this.total=response.data.data.total
+                }else{
+                    this.$Message.error(response.data.data);
+                    this.$Loading.error();
+                }
                 this.loading = false
-                this.$Loading.finish();
-                this.dataList=response.data.data
-                this.total=response.data.total
               }.bind(this))
               .catch(function (error) {
                 this.$Message.error('网络出现了问题！ε(┬┬﹏┬┬)3');

@@ -17,7 +17,10 @@
 			            </Input>
 			        </FormItem>
 			        <FormItem>
-			            <Button type="primary" @click="handleSubmit('formInline')">登录</Button>
+			            <Button type="primary" :loading="Loading" @click="handleSubmit('formInline')">
+			              <span v-if="!Loading">登录</span>
+	                      <span v-else>登录中...</span>
+				        </Button>
 			        </FormItem>
 			    </Form>
 	        </div>
@@ -25,6 +28,9 @@
     </div>
 </template>
 <script>
+	import { mapState } from 'vuex'
+	import {mapMutations} from 'vuex'
+	import qs from 'qs'//引入qs模块
     export default {
         data () {
             return {
@@ -43,17 +49,55 @@
                 }
             }
         },
+
+        created () {
+          this.$Loading.finish();
+        },
         methods: {
+        	...mapMutations(['submitLoading']),
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.$Message.success('提交成功!');
+                        this.submitLoading()
+                        
+                        this.$ajax({
+                            method: 'POST',
+                            url: this.ajaxUrl+'login/login_check',
+                            data:
+                                qs.stringify(this.formInline),
+                         })
+                        .then(function (response) {
+                            if (response.data.code==0) {
+                            	
+                            	this.$Message.success('提交成功 (ง •_•)ง');
+
+                            	setTimeout(() => {
+				                    this.$router.push('/')
+				                }, 1000);
+
+                            }else{
+                                this.$Message.error(response.data.data);
+                                
+                            }
+                            this.submitLoading()
+
+                        }.bind(this))
+                        .catch(function (error) {
+                        	
+                            this.submitLoading()
+                            this.$Message.error('提交失败 ┗( T﹏T )┛');
+                        }.bind(this));
                     } else {
                         this.$Message.error('表单验证失败!');
                     }
                 })
             }
-        }
+        },
+        computed: mapState({
+          ajaxUrl: state => state.ajaxUrl,//获取store中的ajaxUrl数据赋给ajaxUrl
+          Loading: state => state.submitLoading,//获取store中的submitLoading数据赋给submitLoading
+        }),
+
     }
 </script>
 

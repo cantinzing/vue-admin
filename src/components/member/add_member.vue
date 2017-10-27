@@ -16,7 +16,7 @@
             <Row>
                 <Col span="11">
                     <FormItem prop="birthday">
-                        <DatePicker type="date" placeholder="选择生日" :value="formValidate.birthday"></DatePicker>
+                        <DatePicker type="date" placeholder="选择生日" v-model="formValidate.birthday"></DatePicker>
                     </FormItem>
                 </Col>
             </Row>
@@ -58,18 +58,20 @@
                 
                 ruleValidate: {
                     nickname: [
+                        { type: 'string', min: 4, max:25, message: '昵称4字至25字之间', trigger: 'blur' },
                         { required: true, message: '昵称不能为空', trigger: 'blur' }
                     ],
                     email: [
-                        { required: true, message: '邮箱不能为空', trigger: 'blur' },
+                        
                         { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
                     ],
                     sex: [
                         { required: true, type:'number', message: '请选择性别', trigger: 'change' }
                     ],
-                    birthday: [
-                        { required: true, type: 'string', message: '请选择生日日期', trigger: 'change' }
+                    mobile: [
+                        { type: 'number', min: 11, message: '手机号码请填写数字', trigger: 'blur' }
                     ],
+                    
                     avatar: [
                         { required: true,  message: '请选择上传头像', trigger: 'blur' }
                     ],
@@ -103,10 +105,15 @@
                                 qs.stringify(this.formValidate),
                          })
                         .then(function (response) {
-
-                            this.$emit('addSuccess')
-                            this.submitLoading()
-                            this.$Message.success('提交成功 (ง •_•)ง');
+                            if (response.data.code==0) {
+                                this.$emit('addSuccess')
+                                this.submitLoading()
+                                this.$Message.success('提交成功 (ง •_•)ง');
+                            }else{
+                                this.$Message.error(response.data.data);
+                                this.submitLoading()
+                            }
+                            
                             
                         }.bind(this))
                         .catch(function (error) {
