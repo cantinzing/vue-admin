@@ -14,6 +14,8 @@ const login = resolve => require(['../components/common/login'], resolve)
 // import homepage from '@/components/index/homepage'
 // import member_list from '@/components/member/member_list'
 
+
+
 export default new Router({
   routes: [
 	    {
@@ -21,6 +23,10 @@ export default new Router({
 		    name: '首页',//命名路由调用$route.name可以获取这个路由的name值，例如面包屑那里使用
 		    components: {
 		        main:homepage
+		    },
+		    meta: {
+		        auth: true,
+		        keep: true
 		    }
 		},
 	    { 
@@ -28,14 +34,21 @@ export default new Router({
 	    	name: '会员列表',
       		components: {
         		main:member_list
-      		}
+      		},
+      		meta: {
+		        auth: true,
+		        keep: true
+		    }
     	},
     	{ 
 	    	path: '/login',
 	    	name: '登陆页面',
       		components: {
-        		index:login
-      		}
+        		login:login
+      		},
+      		meta: {
+		        auth: false
+		    }
     	},
   	]
 

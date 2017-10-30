@@ -55,9 +55,6 @@
         },
         methods: {
 
-          routeTo(path){
-            this.$router.push(path)
-          },
 
         },
     }

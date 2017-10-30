@@ -69,8 +69,8 @@
                         .then(function (response) {
                             if (response.data.code==0) {
                             	
-                            	this.$Message.success('提交成功 (ง •_•)ง');
-
+                            	this.$Message.success('登陆成功 (ง •_•)ง');
+                            	this.$emit('userSignIn', response.data.data.user_name);
                             	setTimeout(() => {
 				                    this.$router.push('/')
 				                }, 1000);

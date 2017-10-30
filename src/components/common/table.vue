@@ -39,6 +39,7 @@
           // 组件创建完后获取数据，
           // 此时 data 已经被 observed(看到; 观察) 了
           this.fetchData()
+          console.log(localStorage.getItem("userName"))
         },
 
         computed: mapState({
