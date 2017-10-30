@@ -1,7 +1,7 @@
 <template>
     <div>
           
-        <tableList v-on:getData="getData" ref="table" :columns="columns" adminUrl="member/member_list" name="会员" sqlTable="member" search="输入会员名称关键词筛选数据">
+        <tableList v-on:getData="getData" ref="table" :columns="columns" adminUrl="member/member_list" name="会员"  search="输入会员名称关键词筛选数据">
             <span slot="header"><!-- 把这个块分发到table的slot='header'具名插槽里 -->
                 <Button class="tableHead" type="ghost" @click="add_member">添加会员</Button>
             </span>
@@ -154,6 +154,7 @@
             getData(){
                 this.rest();
                 this.$refs.addMember.formValidate=this.$refs.table.editData;
+            this.$refs.addMember.formValidate.birthday=new Date(this.$refs.table.editData.birthday);//把数据库取出的时间先格式化，否则保存修改时时间控件会报错
                 this.modal=true;
                 this.$Spin.hide();
             },

@@ -4,7 +4,7 @@
 
             <Button class="tableHead" :disabled="!selection.length" type="ghost" @click="remove">批量删除</Button>
             <slot name="header"></slot>
-            <Input v-model="keyWord" :placeholder="search" style="width: 250px"></Input>
+            <Input v-model="keyWord" :placeholder="search" style="width: 250px" @on-enter="fetchData"></Input>
             <Button type="ghost" shape="circle" icon="ios-search" @click="fetchData"></Button>
             
         </div>

@@ -69,7 +69,11 @@
                         { required: true, type:'number', message: '请选择性别', trigger: 'change' }
                     ],
                     mobile: [
-                        { type: 'number', min: 11, message: '手机号码请填写数字', trigger: 'blur' }
+                        { type: 'string', min: 11, message: '请填写正确的手机号码', trigger: 'blur' }
+                    ],
+
+                    birthday: [
+                        { required: true, type: 'date', message: '请选择生日日期', trigger: 'change' }
                     ],
                     
                     avatar: [
