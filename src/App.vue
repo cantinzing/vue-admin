@@ -1,11 +1,11 @@
 <template>
   <div id="app">
  
-  	<index v-if="userName">
+  	<!-- <index v-if="userName">
   		<span slot="router">
   			<router-view name="main"></router-view>
   		</span>
-  	</index>
+  	</index> -->
 
 	<router-view @userSignIn="userSignIn" name="login"></router-view>
 
