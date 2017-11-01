@@ -10,14 +10,14 @@ import 'iview/dist/styles/iview.css'
 import './assets/css/common.css'
 
 Vue.prototype.$ajax = axios//如果不添加这行，在其它的组件中，是无法使用 axios 命令的。但如果将 axios 改写为 Vue 的原型属性，就能解决这个问题
-
+axios.defaults.withCredentials=true;//让ajax携带cookie，向后端发送cookie，解决由于跨域前端每次访问后端session_id都不同的问题  
 Vue.use(iView)
 
 //iview顶部加载进度条
-// router.beforeEach((to, from, next) => {
-//     iView.LoadingBar.start();
-//     next();
-// });
+router.beforeEach((to, from, next) => {
+    iView.LoadingBar.start();
+    next();
+});
 
 
 // router.beforeEach((to,from,next) => {

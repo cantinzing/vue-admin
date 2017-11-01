@@ -116,6 +116,10 @@
                             }else{
                                 this.$Message.error(response.data.data);
                                 this.submitLoading()
+
+                                if (response.data.code ==-1) {//用户未登录
+                                    this.$router.push('/login')
+                                }
                             }
                             
                             

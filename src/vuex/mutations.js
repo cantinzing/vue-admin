@@ -8,7 +8,10 @@ const mutations = {
   },
 
 
-
+  //用户登陆凭证
+  userName: (state,name) => {
+    state.userName = name
+  },
 
 
 

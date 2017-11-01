@@ -12,6 +12,7 @@ let state = {
   //设置全局的ajax请求网址
   ajaxUrl:'http://gym.dev/',
 
+  userName:'',
 
   // 表单提交按钮状态
   submitLoading:false,

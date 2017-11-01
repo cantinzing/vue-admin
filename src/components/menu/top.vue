@@ -7,7 +7,7 @@
                 <Submenu name="3">
                     <template slot="title">
                         <Icon type="android-settings"></Icon>
-                        cantinzing
+                        {{admin}}
                     </template>
                     <MenuItem name="3-1">新增和启动</MenuItem>
                     <MenuItem name="3-2">清除缓存</MenuItem>
@@ -15,19 +15,6 @@
                 </Submenu>
             </div>    
         </Menu>
-<!--         <Dropdown style="margin-left: 20px">
-        <a href="javascript:void(0)">
-            菜单(居中)
-            <Icon type="arrow-down-b"></Icon>
-        </a>
-        <DropdownMenu slot="list">
-            <DropdownItem>驴打滚</DropdownItem>
-            <DropdownItem>炸酱面</DropdownItem>
-            <DropdownItem>豆汁儿</DropdownItem>
-            <DropdownItem>冰糖葫芦</DropdownItem>
-            <DropdownItem>北京烤鸭</DropdownItem>
-        </DropdownMenu>
-    </Dropdown> -->
     </div>
 </template>
 <script>
@@ -39,11 +26,40 @@
         },
         methods: {
 
-          logout(){
-            this.$router.push('/login')
-          },
+          logout(name){
+            if (name=='3-3') {
+                this.$ajax({
+                    method: 'GET',
+                    url: this.$store.state.ajaxUrl+'login/login_out',
+                })
+                .then(function (response) {
+                    if (response.data.code==0) {
+                        
+                        this.$Message.success(response.data.data);
+                        
+                    }else{
+                        this.$Message.error(response.data.data);
+                        
+                    }
+                    
+                    setTimeout(() => {
+                            this.$router.push('/login')
+                        }, 2000);
 
+                }.bind(this))
+                .catch(function (error) {
+                    this.$Message.error('网络出现了问题！ ┗( T﹏T )┛');
+                }.bind(this));
+
+              }
+            },
         },
+
+        computed: {
+          admin () {
+            return this.$store.state.userName
+          }
+        }
     }
 </script>
 

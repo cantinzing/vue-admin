@@ -39,7 +39,7 @@
           // 组件创建完后获取数据，
           // 此时 data 已经被 observed(看到; 观察) 了
           this.fetchData()
-          console.log(localStorage.getItem("userName"))
+
         },
 
         computed: mapState({
@@ -69,9 +69,15 @@
                     this.$Loading.finish();
                     this.dataList=response.data.data.data
                     this.total=response.data.data.total
+
                 }else{
+
                     this.$Message.error(response.data.data);
                     this.$Loading.error();
+
+                    if (response.data.code ==-1) {//用户未登录
+                        this.$router.push('/login')
+                    }
                 }
                 this.loading = false
               }.bind(this))
@@ -107,6 +113,9 @@
                 }else{
                     this.$Spin.hide();
                     this.$Message.error('获取数据出现了问题！ε(┬┬﹏┬┬)3');
+                    if (response.data.code ==-1) {//用户未登录
+                        this.$router.push('/login')
+                    }
                 }
                 
 
@@ -129,7 +138,6 @@
                 this.selection=select;
             },
 
-            ...mapMutations(['logicDel']),
             remove (index,id) {
               this.$Modal.confirm({
                     title: '确认要删除此'+this.name+'吗？',
@@ -154,9 +162,16 @@
                         
                      })
                       .then(function (response) {
-                        this.loading = false;
-                        this.$Loading.finish();
-                        this.fetchData();
+                        if (response.data.code==0) {
+                            this.loading = false;
+                            this.$Loading.finish();
+                            this.fetchData();
+                        }else{
+                            this.$Message.error(response.data.data);
+                            if (response.data.code ==-1) {//用户未登录
+                                this.$router.push('/login')
+                            }
+                        }
 
                       }.bind(this))
                       .catch(function (error) {

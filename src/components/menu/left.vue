@@ -17,11 +17,11 @@
         </Submenu>
         <Submenu name="2">
             <template slot="title">
-                <Icon type="ios-keypad" :size="iconSize"></Icon>
-                导航二
+                <Icon type="compose" :size="iconSize"></Icon>
+                文章管理
             </template>
-            <MenuItem name="2-1">选项 1</MenuItem>
-            <MenuItem name="2-2">选项 2</MenuItem>
+            <MenuItem name="2-1">文章分类</MenuItem>
+            <MenuItem name="article_list">文章列表</MenuItem>
         </Submenu>
         <Submenu name="3">
             <template slot="title">

@@ -52,8 +52,10 @@
 
         created () {
           this.$Loading.finish();
+          this.userName ('');//需要重新登陆时把全局userName设置为空
         },
         methods: {
+            ...mapMutations(['userName']),
         	...mapMutations(['submitLoading']),
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
@@ -83,7 +85,7 @@
 
                         }.bind(this))
                         .catch(function (error) {
-                        	
+    
                             this.submitLoading()
                             this.$Message.error('提交失败 ┗( T﹏T )┛');
                         }.bind(this));
