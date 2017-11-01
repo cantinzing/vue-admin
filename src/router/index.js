@@ -21,6 +21,9 @@ export default new Router({
 		    components: {
 		        main:resolve => require(['../components/index/homepage'], resolve)// 路由懒加载
 		    },
+		    meta: {
+          		breadcrumbName: "首页"
+        	}
 		   
 		},
 	    { 
@@ -37,8 +40,32 @@ export default new Router({
       		components: {
         		main:resolve => require(['../components/article/article_list'], resolve)
       		},
-      		
+      		children: [
+	        {
+
+	          path: 'add_article',
+	          components:{
+        		haha:resolve => require(['../components/article/add_article'], resolve)
+      		  },
+      		  meta: {
+          		breadcrumbName: "添加文章"
+        	  },
+	        },
+	        ],
+      		meta: {
+          		breadcrumbName: "文章列表"
+        	},
     	},
+    	// { 
+	    // 	path: '/add_article',
+	    // 	name: '添加文章',
+     //  		components: {
+     //    		main:resolve => require(['../components/article/add_article'], resolve)
+     //  		},
+     //  		meta: {
+     //      breadcrumbName: "添加文章"
+     //    }
+    	// },
   	]
 
 

@@ -21,7 +21,7 @@
                 文章管理
             </template>
             <MenuItem name="2-1">文章分类</MenuItem>
-            <MenuItem name="article_list">文章列表</MenuItem>
+            <MenuItem name="/article_list">文章列表</MenuItem>
         </Submenu>
         <Submenu name="3">
             <template slot="title">

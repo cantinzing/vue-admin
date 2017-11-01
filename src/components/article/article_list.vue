@@ -2,7 +2,7 @@
     <div>
         <tableList  ref="table" :columns="columns" adminUrl="member/member_list" name="文章" sqlTable="member" search="输入文章标题关键词筛选数据">
                 <span slot="header"><!-- 把这个块分发到table的slot='header'具名插槽里 -->
-                    <Button class="tableHead" type="ghost" @click="add_member">添加文章</Button>
+                    <router-link to="/article_list/add_article"><Button class="tableHead" type="ghost">添加文章</Button></router-link>
                 </span>
         </tableList>
     </div>

@@ -8,9 +8,7 @@
                 <top></top>
                 <!-- 面包屑 -->
                 <div class="layout-breadcrumb">
-                    <Breadcrumb>
-                        <BreadcrumbItem v-bind:href="current_router" v-bind:replace="is_add">{{ $route.name }}</BreadcrumbItem>
-                    </Breadcrumb>
+                    <breadcrumb></breadcrumb>
                 </div>
                 <div class="layout-content">
                     <div class="layout-content-main">
@@ -25,33 +23,22 @@
 <script>
     import left from '../menu/left'
     import top from '../menu/top'
+    import breadcrumb from '../common/breadcrumb'
     export default {
         data() {
           return {
             spanLeft: 3,
             spanRight: 21,
             iconSize:18,
-            is_add:true,
-            router:this.$route.path
           }
         },
         components: {
             left,
             top,
+            breadcrumb,
         },
         computed: {
-            setActive() {
-              if(this.$route.path=='/'){//首页路由不应去掉/
-                return this.$route.path;
-              }
-              else{
-                return this.$route.path.replace('/','');//其它路由去掉/，否则不能高亮侧栏当前选中的栏目
-              }
-            },
-            current_router(){
-              return this.$route.path;
-            },
-            
+
         },
         methods: {
 
