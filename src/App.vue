@@ -1,13 +1,7 @@
 <template>
   <div id="app">
 
-  	<index v-if="login">
-  		<span slot="router">
-  			<router-view name="main"></router-view>
-  		</span>
-  	</index>
-	
-	<router-view @userSignIn="userSignIn" name="login"></router-view>
+	<router-view @userSignIn="userSignIn"></router-view>
 
   </div>
 </template>
@@ -31,7 +25,6 @@
 
 	    computed: mapState({
           ajaxUrl: state => state.ajaxUrl,//获取store中的ajaxUrl数据赋给ajaxUrl
-          login: state => state.userName,//获取store中的userName数据赋给login 
         }),
 	    created () {
 	      //用户刷新页面时重新请求后台判断用户是否已经登录

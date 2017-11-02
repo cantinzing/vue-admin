@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Menu :active-name="setActive" theme="light" width="auto" :open-names="['/']" accordion @on-select="routeTo">
+    <Menu :active-name="setActive" theme="light" width="auto" :open-names="['homepage']" accordion @on-select="routeTo">
         <div class="layout-logo-left"></div>
-        <MenuItem name="/">
+        <MenuItem name="homepage">
             <Icon type="ios-navigate" :size="iconSize"></Icon>
             <span class="layout-text">首页</span>
         </MenuItem>

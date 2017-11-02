@@ -9,53 +9,50 @@ export default new Router({
   routes: [
   		{ 
 	    	path: '/login',
-	    	name: '登陆页面',
-      		components: {
-        		login:resolve => require(['../components/common/login'], resolve)
-      		},
+      	component: resolve => require(['../components/common/login'], resolve),
       		
     	},
-	    {
-		    path: '/',
-		    name: '首页',//命名路由调用$route.name可以获取这个路由的name值，例如面包屑那里使用
-		    components: {
-		        main:resolve => require(['../components/index/homepage'], resolve)// 路由懒加载
-		    },
-		    meta: {
-          		breadcrumbName: "首页"
-        	}
-		   
-		},
-	    { 
-	    	path: '/member_list',
-	    	name: '会员列表',
-      		components: {
-        		main:resolve => require(['../components/member/member_list'], resolve)
-      		},
-      		
-    	},
-    	{ 
-	    	path: '/article_list',
-	    	name: '文章列表',
-      		components: {
-        		main:resolve => require(['../components/article/article_list'], resolve)
-      		},
-      		children: [
-	        {
 
-	          path: 'add_article',
-	          components:{
-        		haha:resolve => require(['../components/article/add_article'], resolve)
-      		  },
-      		  meta: {
-          		breadcrumbName: "添加文章"
-        	  },
-	        },
-	        ],
-      		meta: {
-          		breadcrumbName: "文章列表"
-        	},
-    	},
+      { 
+        path: '/index',
+        component: resolve => require(['../components/index/index'], resolve),
+        children: [
+          {
+
+            path: '/homepage',
+            component:resolve => require(['../components/index/homepage'], resolve),
+            meta: {
+              breadcrumbName: "首页"
+            }
+          },
+          { 
+            path: '/member_list',
+            component: resolve => require(['../components/member/member_list'], resolve),
+            meta: {
+              breadcrumbName: "会员列表"
+            }
+          },
+          { 
+            path: '/article_list',
+            component: resolve => require(['../components/article/article_list'], resolve),
+            meta: {
+              breadcrumbName: "文章列表"
+            },
+          },
+          { 
+            path: '/add_article',
+            component: resolve => require(['../components/article/add_article'], resolve),
+            meta: {
+              breadcrumbName: "添加文章"
+            }
+          },
+
+
+        ],
+          
+      },
+
+	    
     	// { 
 	    // 	path: '/add_article',
 	    // 	name: '添加文章',

@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './vuex/store'
-import axios from 'axios'
+import axios  from 'axios'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import './assets/css/common.css'
@@ -38,6 +38,24 @@ router.beforeEach((to, from, next) => {
 // router.afterEach(route => {
 //     iView.LoadingBar.finish();
 // });
+
+
+
+var routeList = []
+
+router.beforeEach((to, from, next) => {
+  var index = routeList.indexOf(to.name)
+  if (index !== -1) {
+    //如果存在路由列表，则把之后的路由都删掉
+    routeList.splice(index + 1, routeList.length - index - 1)
+  } else {
+    routeList.push(to.name)
+  }
+  to.meta.routeList = routeList
+  next()
+})
+
+
 
 
 Vue.config.productionTip = false

@@ -13,7 +13,7 @@
                 <div class="layout-content">
                     <div class="layout-content-main">
                       <!-- 路由分发 -->
-                      <slot name="router"></slot>
+                      <router-view></router-view>
                     </div>
                 </div>
             </Col>
