@@ -3,7 +3,6 @@
     <Breadcrumb>
         <BreadcrumbItem v-for="(item,index) in brumblist" :key="index" :href="item.path" >{{item.meta.breadcrumbName}}</BreadcrumbItem>
     </Breadcrumb>
-    {{title}}
   </div>
 </template>
 

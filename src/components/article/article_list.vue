@@ -9,9 +9,12 @@
 </template>
 <script>
     import tableList from '../common/table'
+    import addArticle from './add_article'
+    import { mapState } from 'vuex'
     export default {
         data () {
             return {
+                modal:false,
                 columns: [
                     {
                         type: 'selection',
@@ -109,9 +112,33 @@
 
         components: {
           tableList,
+          addArticle,
         },
+        computed: mapState({
+          ajaxUrl: state => state.ajaxUrl,//获取store中的ajaxUrl数据赋给ajaxUrl
+          submitLoading: state => state.submitLoading,//获取store中的submitLoading数据赋给submitLoading
+        }),
         methods: {
-            
+
+            add_article(){
+              this.rest();
+              this.modal=true;
+            },
+
+            addSuccessq(){
+
+              this.$refs.table.fetchData()
+              this.modal=false;
+
+            },
+
+            save(){
+              this.$refs.addMember.handleSubmit(this.$refs.addMember.formname);//访问add_member.vue子组件的handleSubmit方法
+            },
+
+            rest(){
+              // this.$refs.addMember.handleReset(this.$refs.addMember.formname);//同上
+            },
         },
         mounted () {
             

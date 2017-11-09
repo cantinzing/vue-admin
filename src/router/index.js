@@ -14,12 +14,12 @@ export default new Router({
     	},
 
       { 
-        path: '/index',
+        path: '/',
         component: resolve => require(['../components/index/index'], resolve),
         children: [
           {
 
-            path: '/homepage',
+            path: '/',
             component:resolve => require(['../components/index/homepage'], resolve),
             meta: {
               breadcrumbName: "首页"

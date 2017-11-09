@@ -74,7 +74,7 @@
                             	this.$Message.success('登陆成功 (ง •_•)ง');
                             	this.$emit('userSignIn', response.data.data.user_name);
                             	setTimeout(() => {
-				                    this.$router.push('/homepage')
+				                    this.$router.push('/')
 				                }, 1000);
 
                             }else{

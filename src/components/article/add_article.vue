@@ -1,49 +1,39 @@
 <template>
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-        <FormItem label="姓名" prop="name">
-            <Input v-model="formValidate.name" placeholder="请输入姓名"></Input>
-        </FormItem>
-        <FormItem label="邮箱" prop="mail">
-            <Input v-model="formValidate.mail" placeholder="请输入邮箱"></Input>
-        </FormItem>
-        <FormItem label="城市" prop="city">
-            <Select v-model="formValidate.city" placeholder="请选择所在地">
-                <Option value="beijing">北京市</Option>
-                <Option value="shanghai">上海市</Option>
-                <Option value="shenzhen">深圳市</Option>
-            </Select>
-        </FormItem>
+        <Row>
+            <Col span="7">
+                <FormItem label="文章标题" prop="title">
+                    <Input v-model="formValidate.title" placeholder="请输入文章标题"></Input>
+                </FormItem>
+            </Col>
+        </Row>
+        <Row>
+            <Col span="7">
+            <FormItem label="文章分类">
+                <Select v-model="formValidate.cat_id">
+                    <Option value="beijing">New York</Option>
+                    <Option value="shanghai">London</Option>
+                    <Option value="shenzhen">Sydney</Option>
+                </Select>
+            </FormItem>
+            </Col>
+        </Row>
         <FormItem label="选择日期">
-            <Row>
-                <Col span="11">
+          
                     <FormItem prop="date">
                         <DatePicker type="date" placeholder="选择日期" v-model="formValidate.date"></DatePicker>
                     </FormItem>
-                </Col>
-                <Col span="2" style="text-align: center">-</Col>
-                <Col span="11">
-                    <FormItem prop="time">
-                        <TimePicker type="time" placeholder="选择时间" v-model="formValidate.time"></TimePicker>
-                    </FormItem>
-                </Col>
-            </Row>
+           
         </FormItem>
-        <FormItem label="性别" prop="gender">
-            <RadioGroup v-model="formValidate.gender">
-                <Radio label="male">男</Radio>
-                <Radio label="female">女</Radio>
-            </RadioGroup>
-        </FormItem>
-        <FormItem label="爱好" prop="interest">
-            <CheckboxGroup v-model="formValidate.interest">
-                <Checkbox label="吃饭"></Checkbox>
-                <Checkbox label="睡觉"></Checkbox>
-                <Checkbox label="跑步"></Checkbox>
-                <Checkbox label="看电影"></Checkbox>
-            </CheckboxGroup>
-        </FormItem>
-        <FormItem label="介绍" prop="desc">
-            <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
+        <Row>
+            <Col span="10">
+            <FormItem label="文章描述" prop="desc">
+                <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 3,maxRows: 5}" placeholder="请输入..."></Input>
+            </FormItem>
+            </Col>
+        </Row>
+        <FormItem label="文章内容" prop="content">
+            <UE :defaultMsg=defaultMsg :config=config ref="ue"></UE>
         </FormItem>
         <FormItem>
             <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
@@ -52,18 +42,27 @@
     </Form>
 </template>
 <script>
+    import UE from '../common/ueditor';
     export default {
         data () {
             return {
+                defaultMsg: '这里是UE测试',
+                config: {
+                  initialFrameWidth: null,
+                  initialFrameHeight: 350
+                },
                 formValidate: {
-                    name: '',
+                    title: '',
+                    desc:'',
                     mail: '',
                     city: '',
                     gender: '',
+                    cat_id: '',
                     interest: [],
                     date: '',
                     time: '',
-                    desc: ''
+                    desc: '',
+                    content:'',
                 },
                 ruleValidate: {
                     name: [
@@ -96,6 +95,10 @@
                 }
             }
         },
+        components: {
+          UE,
+        },
+
         methods: {
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
