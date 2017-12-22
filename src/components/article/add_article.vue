@@ -18,23 +18,27 @@
             </FormItem>
             </Col>
         </Row>
-        <FormItem label="选择日期">
+        <FormItem label="发布日期">
           
-                    <FormItem prop="date">
-                        <DatePicker type="date" placeholder="选择日期" v-model="formValidate.date"></DatePicker>
+                    <FormItem prop="publish_time">
+                        <DatePicker type="datetime" placeholder="选择日期" v-model="formValidate.publish_time"></DatePicker>
                     </FormItem>
            
         </FormItem>
         <Row>
-            <Col span="10">
+            <Col span="7">
             <FormItem label="文章描述" prop="desc">
                 <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 3,maxRows: 5}" placeholder="请输入..."></Input>
             </FormItem>
             </Col>
         </Row>
-        <FormItem label="文章内容" prop="content">
-            <UE :defaultMsg=defaultMsg :config=config ref="ue"></UE>
-        </FormItem>
+        <Row>
+            <Col span="18">
+                <FormItem label="文章内容" prop="content">
+                    <UE :defaultMsg=defaultMsg :config=config ref="ue"></UE>
+                </FormItem>
+            </Col>
+        </Row>
         <FormItem>
             <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
             <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
@@ -59,7 +63,7 @@
                     gender: '',
                     cat_id: '',
                     interest: [],
-                    date: '',
+                    publish_time: '',
                     time: '',
                     desc: '',
                     content:'',
@@ -82,8 +86,8 @@
                         { required: true, type: 'array', min: 1, message: '至少选择一个爱好', trigger: 'change' },
                         { type: 'array', max: 2, message: '最多选择两个爱好', trigger: 'change' }
                     ],
-                    date: [
-                        { required: true, type: 'date', message: '请选择日期', trigger: 'change' }
+                    publish_time: [
+                        { required: true, type: 'date', message: '请选择发布日期', trigger: 'change' }
                     ],
                     time: [
                         { required: true, type: 'date', message: '请选择时间', trigger: 'change' }

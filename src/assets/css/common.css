@@ -23,3 +23,8 @@
   .layout-header{
     line-height: 90px;
   }
+
+
+  .ivu-select-dropdown {
+    z-index: 1000;
+  }

@@ -10,7 +10,7 @@
                 v-model="modal"
                 title="添加会员"
                 v-bind:mask-closable="false"><!-- 布尔值数据要用v-bind，否则报错 -->
-                <addMember v-on:addSuccess="addSuccessq" ref="addMember" :memberId="member_id"></addMember>
+                <addMember v-on:addSuccess="addSuccessq" ref="addMember" :memberId="id"></addMember>
                 <!-- 通过在子组件上引用ref,从而获得子组件实例并通过this.$refs.addMember调用子组件方法或数据 -->
                 <div slot="footer">
                     <Button type="dashed" @click="rest">重置</Button>
@@ -30,7 +30,7 @@
         data () {
             return {
                 modal:false,
-                member_id:0,
+                id:0,
                 columns: [
                     {
                         type: 'selection',
@@ -103,8 +103,8 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.$refs.table.edit(params.row.member_id,'member/get_edit_data');
-                                            this.member_id=params.row.member_id;
+                                            this.$refs.table.edit(params.row.id,'member/get_edit_data');
+                                            this.id=params.row.id;
                                         }
                                     }
                                 }, '修改'),
@@ -115,7 +115,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.$refs.table.remove(params.index,params.row.member_id)
+                                            this.$refs.table.remove(params.index,params.row.id)
                                         }
                                     }
                                 }, '删除')
@@ -139,7 +139,7 @@
         methods: {
 
             add_member(){
-              this.member_id=0;
+              this.id=0;
               this.rest();
               this.modal=true;
             },
